@@ -15,6 +15,8 @@ var config = {
 
 $("#add-employee").on("click", function(){
 
+    tableRow = $("<tr>")
+
     name = $("#name-input").val().trim()
     role = $("#role-input").val().trim()
     date = $("#example-date-input").val()
@@ -30,4 +32,21 @@ $("#add-employee").on("click", function(){
         rate: rate
       });
 
+    
+
 })
+
+database.ref().on("child_added", function(childSnapshot) {
+
+    name = childSnapshot.val().name
+    role = childSnapshot.val().role
+    date = childSnapshot.val().date
+    rate = childSnapshot.val().rate
+
+
+    $(".table").append('<tr><td>' + name + '</td>' + '<td>' + role + '</td>' + '<td>' + date + '</td>' + '<td>' + rate + '</td>' + '</tr>')
+
+
+}, function(errorObject) {
+    console.log("Errors handled: " + errorObject.code)
+});
